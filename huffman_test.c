@@ -6,9 +6,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-//#include <mpi.h>
 #include <math.h>
 #include <time.h>
+
+// MPI
+// #include <mpi.h>
+
+// Hash search
+#include <search.h>
+#include <errno.h>
 
 typedef struct Pixel
 {
@@ -65,6 +71,14 @@ int main(int argc, char *argv[])
 
 
 	int numrows = 4, numcols = 4;
+	
+	/* Search Test */
+	if ( hcreate(numrows * numcols) == 0 )
+	{
+		printf("Error creating hash of size %d\n", numrows*numcols);
+		return errno;
+	}
+	
 	Pixel **test_image = (Pixel *)malloc( numrows * sizeof(Pixel) );
 	for( int i = 0; i < numrows; i++ )
 	{
@@ -72,14 +86,21 @@ int main(int argc, char *argv[])
 		printf("Row %d:\n", i);
 		for (int j = 0; j < numcols; j++)
 		{
+			//create
 			test_image[i][j].r = rand() % 2;
 			test_image[i][j].g = rand() % 2;
 			test_image[i][j].b = rand() % 2;
 			test_image[i][j].a = rand() % 2;
 			print_pix(&test_image[i][j]);
+
+			//add to hash
+			//TODO
 		}
 	}
 
+
+	//free
+	hdestroy();
 	free(test_image);
 	free(pix_row);
 	return 0;
