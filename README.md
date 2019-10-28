@@ -1,6 +1,4 @@
-# Image-Processing
-
-Comparing Image Compression Algorithms
+# Comparing Image Compression Algorithms
 
 ## Abstract
 
@@ -24,17 +22,10 @@ The second instance of the word redbird is replaced by a reference to the start 
 
 The second step of the DEFLATE algorithm is an implementation of Huffman coding in order to perform bit reduction. At a high level, this algorithm builds a partial tree dictionary from the data based on how frequently a pattern appears. Then this tree is used to assign a binary encoding to the symbols in the tree where high frequency symbols get smaller values. For example, if we wanted to encode the string “illinois”, we would start by counting the occurrences of each symbol. i:3, l:2, nos:1. Then, we would build the following Huffman tree:
 
+![Huffman tree for Illinois](https://github.com/btmusse/Image-Processing/blob/master/Screenshot%202019-10-21%2019.15.54.png)
+
 Encodings:
-
-i: 00
-
-l: 01
-
-n: 10
-
-s: 101
-
-o: 110
+i: 00     l: 01     n: 10     s: 101      o: 110
 
 Finally, we would assign encodings to each symbol based on the tree and encode the message as “000101001011000101”. This string of bits can then be decoded by stepping through the same tree used for encoding. Once a leaf node is hit, we have our value. We then reset to the root of the tree and continue decoding the bits.
 
