@@ -21,7 +21,6 @@ typedef struct Pixel
 	short r;
 	short b;
 	short g;
-	short a;
 } Pixel;
 
 void print_pix(const Pixel *pixel);
@@ -48,7 +47,6 @@ int main(int argc, char *argv[])
 		pix_row[i].r = i*2;
 		pix_row[i].g = i*2;
 		pix_row[i].b = i*2;
-		pix_row[i].a = i*2;
 	}
 
 	for (int i = 0; i < pix_row_size; i++)
@@ -60,15 +58,12 @@ int main(int argc, char *argv[])
 	a.r = 1;
 	a.g = 1;
 	a.b = 1;
-	a.a = 1;
 	b.r = 1;
 	b.g = 1;
 	b.b = 1;
-	b.a = 1;
 
 	if( cmp_pix(&a, &b) ) printf("Same!\n");
 	else printf("Diff!\n");
-
 
 	int numrows = 4, numcols = 4;
 	
@@ -90,7 +85,6 @@ int main(int argc, char *argv[])
 			test_image[i][j].r = rand() % 2;
 			test_image[i][j].g = rand() % 2;
 			test_image[i][j].b = rand() % 2;
-			test_image[i][j].a = rand() % 2;
 			print_pix(&test_image[i][j]);
 
 			//add to hash
@@ -108,12 +102,12 @@ int main(int argc, char *argv[])
 
 void print_pix(const Pixel *pixel)
 {
-	printf("Pixel: (%d, %d, %d, %d)\n", pixel->r, pixel->b, pixel->g, pixel->a);
+	printf("Pixel: (%d, %d, %d)\n", pixel->r, pixel->b, pixel->g);
 }
 
 int cmp_pix(const Pixel *a, const Pixel *b)
 {
-	if (a->r == b->r && a->g == b->g && a->b == b->b && a->a == b->a)
+	if (a->r == b->r && a->g == b->g && a->b == b->b)
 		return 1;
 	else return 0;
 }
