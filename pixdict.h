@@ -16,10 +16,17 @@ typedef struct PD_Entry
 typedef struct PD
 {
 	PD_Entry_p *entries;
+	int size;
 } PD, *PD_p
 
 // Find Pixel in dictionary
 PD_Entry_p PD_find(const PD_p dict, const Pixel *pixel);
+
+// Create entry in dictionary
+void PD_create(PD_p dict, const Pixel *pixel);
+
+// Add pixel to already existing count
+void PD_add(PD_Entry_p);
 
 // Insert Pixel into dictionary
 // Will return a code
@@ -27,13 +34,5 @@ PD_Entry_p PD_find(const PD_p dict, const Pixel *pixel);
 // 1: new
 // 2: increase count
 int PD_insert(PD_p dict, const Pixel *pixel);
-
-// Create entry in dictionary
-// Will return a boolean success code
-int PD_create(PD_p dict, const Pixel *pixel);
-
-// Add pixel to already existing count
-// Will return a boolean success code
-int PD_add(PD_Entry_p);
 
 #endif

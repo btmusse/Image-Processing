@@ -12,4 +12,8 @@ typedef struct Pixel
 	short g;
 } Pixel;
 
+void print_pix(const Pixel *pixel);
+
+int cmp_pix(const Pixel *a, const Pixel *b);
+
 #endif
