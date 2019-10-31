@@ -12,16 +12,9 @@
 // MPI
 // #include <mpi.h>
 
-// Hash search
-#include <search.h>
-#include <errno.h>
-
-typedef struct Pixel
-{
-	short r;
-	short b;
-	short g;
-} Pixel;
+// Pixel Utils
+#include "pixel.h"
+#include "pixdict.h"
 
 void print_pix(const Pixel *pixel);
 
@@ -66,13 +59,6 @@ int main(int argc, char *argv[])
 	else printf("Diff!\n");
 
 	int numrows = 4, numcols = 4;
-	
-	/* Search Test */
-	if ( hcreate(numrows * numcols) == 0 )
-	{
-		printf("Error creating hash of size %d\n", numrows*numcols);
-		return errno;
-	}
 	
 	Pixel **test_image = (Pixel *)malloc( numrows * sizeof(Pixel) );
 	for( int i = 0; i < numrows; i++ )
