@@ -14,7 +14,7 @@
 
 // Pixel Utils
 #include "pixel.h"
-// #include "pixdict.h"
+#include "huffheap.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
 	MPI_Comm_rank(comm, &rank);
 	*/
 
+/*
 	int pix_row_size = 10;
 	Pixel *pix_row = (Pixel *)malloc( pix_row_size * sizeof(Pixel) );
 
@@ -53,10 +54,14 @@ int main(int argc, char *argv[])
 
 	if( cmp_pix(&a, &b) ) printf("Same!\n");
 	else printf("Diff!\n");
+*/
 
 	int numrows = 4, numcols = 4;
 	
 	Pixel **test_image = (Pixel *)malloc( numrows * sizeof(Pixel) );
+
+	HuffHeap *heap = create_huffheap(6);
+
 	for( int i = 0; i < numrows; i++ )
 	{
 		test_image[i] = (Pixel *)malloc( numcols * sizeof(Pixel) );
@@ -68,15 +73,16 @@ int main(int argc, char *argv[])
 			test_image[i][j].g = rand() % 2;
 			test_image[i][j].b = rand() % 2;
 			print_pix(&test_image[i][j]);
-
+			printf("%s\n", pix_string(&test_image[i][j]));
 			//add to hash
-			//TODO
+			create_or_add_huffheapnode(heap, &test_image[i][j]);
 		}
 	}
 
+	print_huffheap(heap);
 
 	//free
 	free(test_image);
-	free(pix_row);
+	//free(pix_row);
 	return 0;
 }

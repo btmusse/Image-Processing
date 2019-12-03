@@ -1,5 +1,5 @@
 test: huffman_test.c
-	gcc -o test pixel.c huffman_test.c
+	gcc -o test huffman_test.c
 
-clear:
+clean:
 	rm -f test
