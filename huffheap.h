@@ -78,6 +78,7 @@ int resize_huffheap(HuffHeap *heap, int new_capacity)
  */
 HuffHeapNode *create_or_add_huffheapnode(HuffHeap *heap, const Pixel *p)
 {
+	//printf("thread: %d, size: %d\n", omp_get_thread_num(), heap->size);
 	// check for existing node
 	for (int i = 0; i < heap->size; i++)
 	{
@@ -91,16 +92,12 @@ HuffHeapNode *create_or_add_huffheapnode(HuffHeap *heap, const Pixel *p)
 	}
 
 	//resize if necessary
-	//only one thread should check
-#pragma omp single
-{
+	//only one thread at a time will check this
 	if (heap->size == heap->capacity)
 	{
-		printf("Check passed\n");
 		//printf("Resizing from %d to %d\n", heap->capacity, (int)(heap->capacity * 1.5));
 		resize_huffheap(heap, (int)(heap->capacity * 1.5));
 	}
-}
 
 	// no existing node found
 	//
@@ -111,10 +108,10 @@ HuffHeapNode *create_or_add_huffheapnode(HuffHeap *heap, const Pixel *p)
 	ret->frequency = 1;
 	ret->left  = NULL;
 	ret->right = NULL;
-
 	heap->nodes[heap->size] = ret;
+	//printf("old size %d\n", heap->size);
 	heap->size += 1;
-
+	//printf("new size %d\n", heap->size);
 	return ret;
 }
 
@@ -149,10 +146,8 @@ void min_huffheapify(HuffHeap *heap, int ii)
 
 	if (min != ii) // at least one of the above was true
 	{
-#pragma omp critical
-{
+//#pragma omp critical
 		swap_huffheapnode(&heap->nodes[min], &heap->nodes[ii]);
-}
 		min_huffheapify(heap, min);
 	}
 }
@@ -169,12 +164,11 @@ HuffHeapNode *extract_min_huffheapnode(HuffHeap *heap)
 	// set first node to last node
 	// heapify
 	HuffHeapNode *ret;
-#pragma omp critical
-{
 	ret = heap->nodes[0];
+
 	heap->nodes[0] = heap->nodes[heap->size - 1];
 	heap->size -= 1;
-}	
+	
 	//printf("Got %s\nHeapifying...\n", pix_string(ret->data));
 
 	min_huffheapify(heap, 0);
@@ -193,11 +187,10 @@ void insert_huffheapnode(HuffHeap *heap, HuffHeapNode *node)
 
 	while (i > 0 && node->frequency < heap->nodes[(i - 1)/2]->frequency)
 	{
-#pragma omp critical
 		heap->nodes[i] = heap->nodes[(i - 1)/2];
+
 		i = (i - 1)/2;
 	}
-#pragma omp critical
 	heap->nodes[i] = node;
 }
 
@@ -236,13 +229,15 @@ int is_leaf(HuffHeapNode *node)
 HuffHeapNode *build_huffmantree(HuffHeap *heap)
 {
 	//printf("Resizing...\n");
+//#pragma omp critical
+//{
 	if (heap->capacity > heap->size)
 	{
-#pragma omp critical
 		resize_huffheap(heap, heap->size);
 	}
+//}
 	//printf("Resize worked!\nPrinting...\n");
-	print_huffheap(heap);	
+	//print_huffheap(heap);	
 
 	HuffHeapNode *top, *left, *right;
 	Pixel *internal = (Pixel *)malloc(sizeof(Pixel));
@@ -250,7 +245,7 @@ HuffHeapNode *build_huffmantree(HuffHeap *heap)
 	internal->g = -1;
 	internal->b = -1;
 
-	print_pix(internal);
+	//print_pix(internal);
 
 	// keep going until heap has size 1
 	while (heap->size > 1)
@@ -298,8 +293,6 @@ void generate_huffcodes(const HuffHeapNode *root, Pixel *pix_array[], char *code
 
 	if (is_leaf(root))
 	{
-#pragma omp critical
-{
 		// add leaf to pixel array
 		pix_array[*ind] = root->data;
 
@@ -315,8 +308,22 @@ void generate_huffcodes(const HuffHeapNode *root, Pixel *pix_array[], char *code
 
 		// increment code and pix array counter
 		*ind += 1;
-}
 	}	
+}
+
+/**
+ * Finds index of value in Pixel list
+ *
+ * Returns: index of value in pixel list
+ */
+int find_in_pixlist(Pixel **pixlist, Pixel *pixel, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		if (cmp_pix(pixlist[i], pixel))
+			return i;
+	}
+	return -1;
 }
 
 #endif
