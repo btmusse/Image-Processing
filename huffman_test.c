@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 	int numrows = 8, numcols = 8;
 
 	Pixel **test_image = (Pixel *)malloc( numrows * sizeof(Pixel) );
-	HuffHeap *heap = create_huffheap(16*16);
+	HuffHeap *heap = create_huffheap(10);
 
 	double elapsed = omp_get_wtime();
 
@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
 #pragma omp parallel for
 		for (int j = 0; j < numcols; j++)
 		{
+			printf("Col %d\n", j);
 			//create
 			test_image[i][j].r = rand() % 2;
 			test_image[i][j].g = rand() % 2;
@@ -43,7 +44,7 @@ int main(int argc, char *argv[])
 			//print_pix(&test_image[i][j]);
 			//add to hash
 
-			//printf("Thread %d completed j %d\n", omp_get_thread_num(), j);
+			printf("Thread %d completed j %d\n", omp_get_thread_num(), j);
 
 #pragma omp critical
 			create_or_add_huffheapnode(heap, &test_image[i][j]);
@@ -53,9 +54,16 @@ int main(int argc, char *argv[])
 	printf("All adding done\n");
 
 	double lap = omp_get_wtime() - elapsed;
-
-	//printing
+	
 	int heapsize = heap->size;
+	Pixel *pix_list[heapsize];
+	char *code_list[heapsize];
+	char *currentcode = (char *)malloc(sizeof(char) * 200);
+	int *ind = (int *)malloc(sizeof(int));
+	*ind = 0;
+#pragma omp parallel
+{
+	//printing
 	print_huffheap(heap);
 	printf("heapsize: %d\n", heapsize);
 
@@ -63,13 +71,8 @@ int main(int argc, char *argv[])
 	//print_huffheap(heap);
 	HuffHeapNode *treeroot = build_huffmantree(heap);
 	//print_huffheap(heap);
-	Pixel *pix_list[heapsize];
-	char *code_list[heapsize];
-	char *currentcode = (char *)malloc(sizeof(char) * 200);
-	int *ind = (int *)malloc(sizeof(int));
-	*ind = 0;
 	generate_huffcodes(treeroot, pix_list, code_list, currentcode, 0, ind);
-	
+}	
 	elapsed = omp_get_wtime() - elapsed;
 
 	printf("Threads: %d, Lap: %f, Elapsed %f\n", omp_get_num_threads(), lap, elapsed);
@@ -80,10 +83,9 @@ int main(int argc, char *argv[])
 	}
 
 	//free
-	free(test_image);
-	free(pix_list);
-	free(code_list);
+	//free(test_image);
+	//free(pix_list);
+	//free(code_list);
 	//free(heap);
-	//free(pix_row);
 	return 0;
 }
