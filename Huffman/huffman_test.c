@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
 	// dummy name
 	fscanf(file, "%[^\n]", buff);
-	printf("%s\n", buff);
+	//printf("%s\n", buff);
 
 	int numrows, numcols;
 	fscanf(file, "%s", buff);
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 	fscanf(file, "%s", buff);
 	numcols = atoi(buff);
 
-	printf("%d by %d\n", numrows, numcols);
+	//printf("%d by %d\n", numrows, numcols);
 
 	fscanf(file, "%s", buff);
 	if (atoi(buff) > 255)
@@ -59,6 +59,9 @@ int main(int argc, char *argv[])
 		}
 //		printf("\n");
 	}
+
+	/* STEP 1: CREATE HUFFMAN TREE */
+	// This part does not parallelize well because there are too many critical sections when building the minheap and Huffman Tree
 
 	HuffHeap *heap = create_huffheap(numrows * numcols);
 
@@ -104,7 +107,7 @@ omp_set_num_threads(atoi(argv[1]));
 		}
 	}
 
-	printf("All adding done\n");
+	//printf("All adding done\n");
 
 	double lap = omp_get_wtime() - elapsed;
 
@@ -118,7 +121,7 @@ omp_set_num_threads(atoi(argv[1]));
 	
 	//printing
 	//print_huffheap(heap);
-	printf("heapsize: %d\n", heapsize);
+	//printf("heapsize: %d\n", heapsize);
 
 	build_min_huffheap(heap);
 	
@@ -138,8 +141,9 @@ omp_set_num_threads(atoi(argv[1]));
 	}
 	*/
 
-	//write to output
 
+	/* STEP 2: WRITE TO OUTPUT */
+	//This section done in parallel -> the brunt of the speedup
 
 #pragma omp parallel
 {
@@ -181,7 +185,7 @@ FILE *out;
 	}
 }
 	elapsed = omp_get_wtime() - elapsed;
-	printf("Threads: %d, Lap: %f, Lap 2: %f, Elapsed %f\n", omp_get_num_threads(), lap, laptwo, elapsed);
+	printf("Threads: %d, Lap: %f, Lap 2: %f, Elapsed %f\n", atoi(argv[1]), lap, laptwo, elapsed);
 	
 	//free
 	//free(image);
