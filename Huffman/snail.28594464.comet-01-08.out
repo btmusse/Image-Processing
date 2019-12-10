@@ -1,0 +1,9 @@
+Threads: 1, Lap: 0.220051, Lap 2: 0.224358, Elapsed 3.727052
+-rw-r--r-- 1 gemegef isu100 223584 Dec  3 03:36 out
+Threads: 2, Lap: 0.220069, Lap 2: 0.224297, Elapsed 2.235404
+-rw-r--r-- 1 gemegef isu100 223584 Dec  3 03:36 out
+Threads: 5, Lap: 0.220064, Lap 2: 0.224367, Elapsed 1.046585
+-rw-r--r-- 1 gemegef isu100 223584 Dec  3 03:36 out
+Threads: 10, Lap: 0.220271, Lap 2: 0.224576, Elapsed 0.637379
+-rw-r--r-- 1 gemegef isu100 223584 Dec  3 03:36 out
+-rw------- 1 gemegef isu100 760817 Dec  3 02:51 snail.ascii.ppm

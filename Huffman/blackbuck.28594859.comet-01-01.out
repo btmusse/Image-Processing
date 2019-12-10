@@ -1,0 +1,9 @@
+Threads: 1, Lap: 13.791790, Lap 2: 13.830014, Elapsed 94.683503
+-rw-r--r-- 1 gemegef isu100 1651123 Dec  3 05:02 out
+Threads: 2, Lap: 13.807192, Lap 2: 13.845198, Elapsed 55.859837
+-rw-r--r-- 1 gemegef isu100 1651123 Dec  3 05:03 out
+Threads: 5, Lap: 13.793242, Lap 2: 13.831487, Elapsed 32.758636
+-rw-r--r-- 1 gemegef isu100 1651123 Dec  3 05:04 out
+Threads: 10, Lap: 13.802911, Lap 2: 13.841292, Elapsed 23.715913
+-rw-r--r-- 1 gemegef isu100 1651123 Dec  3 05:04 out
+-rw------- 1 gemegef isu100 1989946 Dec  3 02:51 blackbuck.ascii.ppm

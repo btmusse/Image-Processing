@@ -1,0 +1,9 @@
+Threads: 1, Lap: 0.000005, Lap 2: 0.000008, Elapsed 0.001418
+-rw-r--r-- 1 gemegef isu100 43 Dec  3 03:35 out
+Threads: 2, Lap: 0.000004, Lap 2: 0.000008, Elapsed 0.002191
+-rw-r--r-- 1 gemegef isu100 43 Dec  3 03:35 out
+Threads: 5, Lap: 0.000004, Lap 2: 0.000008, Elapsed 0.004280
+-rw-r--r-- 1 gemegef isu100 43 Dec  3 03:35 out
+Threads: 10, Lap: 0.000004, Lap 2: 0.000007, Elapsed 0.005669
+-rw-r--r-- 1 gemegef isu100 43 Dec  3 03:35 out
+-rw------- 1 gemegef isu100 242 Dec  3 02:51 4x4.ppm

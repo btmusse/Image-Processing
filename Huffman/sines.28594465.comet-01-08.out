@@ -1,0 +1,9 @@
+Threads: 1, Lap: 0.003779, Lap 2: 0.003792, Elapsed 0.012901
+-rw-r--r-- 1 gemegef isu100 398680 Dec  3 03:36 out
+Threads: 2, Lap: 0.003783, Lap 2: 0.003796, Elapsed 0.013617
+-rw-r--r-- 1 gemegef isu100 398680 Dec  3 03:36 out
+Threads: 5, Lap: 0.003782, Lap 2: 0.003794, Elapsed 0.014736
+-rw-r--r-- 1 gemegef isu100 398680 Dec  3 03:36 out
+Threads: 10, Lap: 0.003783, Lap 2: 0.003797, Elapsed 0.019263
+-rw-r--r-- 1 gemegef isu100 398680 Dec  3 03:36 out
+-rw------- 1 gemegef isu100 2440022 Dec  3 02:51 sines.ascii.ppm
